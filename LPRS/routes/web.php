@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EvenementController;
+use App\Http\Controllers\OfferController;
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/evenements', [EvenementController::class, 'index'])->name('evenements.index');
@@ -35,5 +36,6 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
-
+    
+Route::resource('offers', OfferController::class)->middleware(['auth:sanctum', 'verified']);
 
