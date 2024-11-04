@@ -27,13 +27,13 @@ Projet LPRS. Création d'un site internet qui permet un gestion utilisateur ains
 - **Composer** : Gestionnaire de dépendances pour PHP.
 - **NPM** : Gestionnaire de paquets pour JavaScript.
 
+   ```
 ## Installation
 
 1. Clone le dépôt :
 
    ```bash
    git clone https://github.com/Rwano93/LPRS_GSD.git
-   ```
 
 2. Accède au répertoire du projet :
 
