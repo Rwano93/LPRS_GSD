@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EvenementsController;
+use App\Http\Controllers\OfferController;
 
 Route::resource('evenements', EvenementsController::class);
 
@@ -20,4 +21,6 @@ Route::middleware([
     })->name('dashboard');
 });
 
+
+Route::resource('offers', OfferController::class)->middleware(['auth:sanctum', 'verified']);
 
