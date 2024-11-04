@@ -4,18 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Evenement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EvenementsController extends Controller
 {
     public function index()
     {
-        $evenements = Evenement::all();
-        return view('evenement.index', compact('evenements'));
+        $evenements = Evenement::latest()->get();
+        return view('evenements.index', compact('evenements'));
     }
 
     public function create()
     {
-        return view('evenement.create');
+        return view('evenements.create');
     }
 
     public function store(Request $request)
@@ -30,20 +31,16 @@ class EvenementsController extends Controller
             'date' => 'required|date',
         ]);
 
-        Evenement::create($validatedData);
+        $evenement = new Evenement($validatedData);
+        $evenement->ref_user = Auth::id();
+        $evenement->save();
 
-        return redirect()->route('evenements.index')
-            ->with('success', 'Événement créé avec succès.');
-    }
-
-    public function show(Evenement $evenement)
-    {
-        return view('evenement.show', compact('evenement'));
+        return redirect()->route('evenements.index')->with('status', 'Événement créé avec succès.');
     }
 
     public function edit(Evenement $evenement)
     {
-        return view('evenement.edit', compact('evenement'));
+        return view('evenements.edit', compact('evenement'));
     }
 
     public function update(Request $request, Evenement $evenement)
@@ -60,15 +57,29 @@ class EvenementsController extends Controller
 
         $evenement->update($validatedData);
 
-        return redirect()->route('evenements.index')
-            ->with('success', 'Événement mis à jour avec succès.');
+        return redirect()->route('evenements.index')->with('status', 'Événement mis à jour avec succès.');
     }
 
     public function destroy(Evenement $evenement)
     {
         $evenement->delete();
+        return redirect()->route('evenements.index')->with('status', 'Événement supprimé avec succès.');
+    }
 
-        return redirect()->route('evenements.index')
-            ->with('success', 'Événement supprimé avec succès.');
+    public function inscription(Evenement $evenement)
+    {
+        if ($evenement->nb_place > 0) {
+            $evenement->participants()->attach(Auth::id());
+            $evenement->decrement('nb_place');
+            return redirect()->route('evenements.index')->with('status', 'Inscription réussie.');
+        }
+        return redirect()->route('evenements.index')->with('error', 'Désolé, l\'événement est complet.');
+    }
+
+    public function desinscription(Evenement $evenement)
+    {
+        $evenement->participants()->detach(Auth::id());
+        $evenement->increment('nb_place');
+        return redirect()->route('evenements.index')->with('status', 'Désinscription réussie.');
     }
 }

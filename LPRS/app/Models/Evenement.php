@@ -17,9 +17,25 @@ class Evenement extends Model
         'elements_requis',
         'nb_place',
         'date',
+        'ref_user',
     ];
 
     protected $casts = [
         'date' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'ref_user');
+    }
+
+    public function participants()
+    {
+        return $this->belongsToMany(User::class, 'evenement_user', 'evenement_id', 'user_id');
+    }
+
+    public function isUserInscrit($userId)
+    {
+        return $this->participants()->where('user_id', $userId)->exists();
+    }
 }
