@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Evenement extends Model
 {
@@ -17,25 +18,19 @@ class Evenement extends Model
         'elements_requis',
         'nb_place',
         'date',
-        'ref_user',
     ];
 
     protected $casts = [
-        'date' => 'datetime',
+        'date' => 'date',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'ref_user');
-    }
 
     public function participants()
     {
-        return $this->belongsToMany(User::class, 'evenement_user', 'evenement_id', 'user_id');
+        return $this->belongsToMany(User::class, 'evenement_user');
     }
 
-    public function isUserInscrit($userId)
+    public function isUserInscrit()
     {
-        return $this->participants()->where('user_id', $userId)->exists();
+        return $this->participants()->where('user_id', Auth::id())->exists();
     }
 }

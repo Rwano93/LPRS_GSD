@@ -1,9 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EvenementsController;
+use App\Http\Controllers\EvenementController;
 
-Route::resource('evenements', EvenementsController::class);
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/evenements', [EvenementController::class, 'index'])->name('evenements.index');
+    Route::get('/evenements/create', [EvenementController::class, 'create'])->name('evenements.create');
+    Route::post('/evenements', [EvenementController::class, 'store'])->name('evenements.store');
+    Route::get('/evenements/{evenement}', [EvenementController::class, 'show'])->name('evenements.show');
+    Route::get('/evenements/{evenement}/edit', [EvenementController::class, 'edit'])->name('evenements.edit');
+    Route::put('/evenements/{evenement}', [EvenementController::class, 'update'])->name('evenements.update');
+    Route::delete('/evenements/{evenement}', [EvenementController::class, 'destroy'])->name('evenements.destroy');
+    
+    Route::get('/evenements/{evenement}/participants', [EvenementController::class, 'participants'])->name('evenements.participants');
+    Route::post('/evenements/{evenement}/inscription', [EvenementController::class, 'inscription'])->name('evenements.inscription');
+    Route::delete('/evenements/{evenement}/desinscription', [EvenementController::class, 'desinscription'])->name('evenements.desinscription');
+    
+
+    
+});
+    
 
 
 Route::get('/', function () {
