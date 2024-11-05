@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Discussion extends Model
 {
@@ -30,10 +30,11 @@ class Discussion extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function reply()
+    public function replies(): HasMany // Correct return type
     {
         return $this->hasMany(Reply::class);
     }
+
 
 
 }

@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\DiscussionController;
+use App\Http\Controllers\ReplyController;
+
+
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/evenements', [EvenementController::class, 'index'])->name('evenements.index');
@@ -22,7 +26,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/discussions/create', [DiscussionController::class, 'create'])->name('discussions.create'); // Formulaire de création
     Route::post('/discussions', [DiscussionController::class, 'store'])->name('discussions.store'); // Sauvegarde de la discussion
     Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'store']);
-
+    Route::resource('discussions', DiscussionController::class);
+    Route::resource('replies', ReplyController::class);
+    Route::post('/replies', [ReplyController::class, 'store'])->name('replies.store');
 
 });
 

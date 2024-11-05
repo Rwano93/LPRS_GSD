@@ -48,8 +48,15 @@ class DiscussionController extends Controller
     }
     public function show($id)
     {
-        $discussion = Discussion::with('user', 'category')->findOrFail($id);
+        $discussion = Discussion::with('replies')->find($id);
+
+        if (!$discussion) {
+            return redirect()->route('discussions.index')->with('error', 'Discussion not found.');
+        }
+
         return view('discussions.show', compact('discussion'));
+
     }
+
 
 }
