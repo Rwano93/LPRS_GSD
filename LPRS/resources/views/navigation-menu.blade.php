@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,11 +18,20 @@
                     </x-nav-link>
                     <x-nav-link href="{{ route('offers.index') }}" :active="request()->routeIs('offers.*')">
                         {{ __('Offres') }}
-                    </x-nav-link>   
+                    </x-nav-link>
                     <x-nav-link href="{{ route('evenements.index') }}" :active="request()->routeIs('evenements.*')">
                         {{ __('Événements') }}
                     </x-nav-link>
                 </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <x-nav-link href="{{ route('forum.index') }}" :active="request()->routeIs('forum.index')">
+                    {{ __('Discussions') }}
+                </x-nav-link>
+
+
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -121,7 +131,7 @@
                                 @csrf
 
                                 <x-dropdown-link href="{{ route('logout') }}"
-                                         @click.prevent="$root.submit();">
+                                                 @click.prevent="$root.submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
@@ -182,7 +192,7 @@
                     @csrf
 
                     <x-responsive-nav-link href="{{ route('logout') }}"
-                                   @click.prevent="$root.submit();">
+                                           @click.prevent="$root.submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>

@@ -12,15 +12,20 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/evenements/{evenement}/edit', [EvenementController::class, 'edit'])->name('evenements.edit');
     Route::put('/evenements/{evenement}', [EvenementController::class, 'update'])->name('evenements.update');
     Route::delete('/evenements/{evenement}', [EvenementController::class, 'destroy'])->name('evenements.destroy');
-    
+
     Route::get('/evenements/{evenement}/participants', [EvenementController::class, 'participants'])->name('evenements.participants');
     Route::post('/evenements/{evenement}/inscription', [EvenementController::class, 'inscription'])->name('evenements.inscription');
     Route::delete('/evenements/{evenement}/desinscription', [EvenementController::class, 'desinscription'])->name('evenements.desinscription');
-    
 
-    
+    // Forum et discussions
+    Route::get('/forum', [DiscussionController::class, 'index'])->name('forum.index'); // Page principale du forum
+    Route::get('/discussions/create', [DiscussionController::class, 'create'])->name('discussions.create'); // Formulaire de création
+    Route::post('/discussions', [DiscussionController::class, 'store'])->name('discussions.store'); // Sauvegarde de la discussion
+    Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'store']);
+
+
 });
-    
+
 
 
 Route::get('/', function () {
@@ -36,6 +41,6 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
-    
+
 Route::resource('offers', OfferController::class)->middleware(['auth:sanctum', 'verified']);
 
