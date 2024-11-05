@@ -1,29 +1,46 @@
-
-<!-- resources/views/discussions/create.blade.php -->
-
 @extends('layouts.app')
 
+@section('title', 'Créer une Discussion')
+
 @section('content')
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Créer une Nouvelle Discussion</h1>
 
-    <form action="{{ route('discussions.store') }}" method="POST">
-        @csrf
-        <div>
-            <label for="title">Titre</label>
-            <input type="text" name="title" id="title" required>
-        </div>
-        <div>
-            <label for="content">Contenu</label>
-            <input type="text" name="contenu" id="content" required></input>
-        </div>
-        <div>
-            <label for="category_id">Catégorie</label>
-            <select name="category_id" id="category_id" required>
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <button type="submit">Créer une discussion</button>
-    </form>
+        <form action="{{ route('discussions.store') }}" method="POST">
+            @csrf
 
+            <div class="mb-3">
+                <label for="title" class="form-label">Titre de la Discussion</label>
+                <input type="text" name="title" id="title" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="content" class="form-label">Contenu de la Discussion</label>
+                <textarea name="content" id="contenu" class="form-control" rows="5" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="category_id" class="form-label">Catégorie</label>
+                <select name="category_id" id="category_id" class="form-select" required>
+                    <option value="">Sélectionnez une catégorie</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="image">Ajouter une image:</label>
+                <input type="file" name="image" id="image" class="form-control" accept="image/*">
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Créer la Discussion</button>
+            </div>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="{{ route('forum.index') }}" class="btn btn-link">Retour au Forum</a>
+        </div>
+    </div>
 @endsection
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">

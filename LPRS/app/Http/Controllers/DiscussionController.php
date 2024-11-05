@@ -33,8 +33,20 @@ class DiscussionController extends Controller
             'title' => 'required|string|max:255',
             'contenu' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id', // Assurez-vous que cette validation est correcte
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB Max
         ]);
+        $discussion = new Discussion();
+        $discussion->title = $request->title;
+        $discussion->content = $request->contenu;
 
+        // Handle Image Upload
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images/discussions', 'public');
+            $discussion->image = $imagePath;
+        }
+
+        $discussion->user_id = auth()->id();
+        $discussion->save();
 
         Discussion::create([
             'title' => $request->title,

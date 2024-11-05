@@ -5,9 +5,9 @@ use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\DiscussionController;
 use App\Http\Controllers\ReplyController;
+use App\Http\Controllers\HomeController;
 
-
-
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/evenements', [EvenementController::class, 'index'])->name('evenements.index');
     Route::get('/evenements/create', [EvenementController::class, 'create'])->name('evenements.create');
