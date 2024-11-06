@@ -72,28 +72,9 @@
                                 </button>
                             @endif
                         </div>
-                        <div>
-                            @if($evenement->date < now())
-                                <span class="bg-gray-500 text-white font-bold py-2 px-4 rounded opacity-75">
-                                    Clôturé
-                                </span>
-                            @else
-                                @if(Auth::user()->id != $evenement->ref_user)
-                                    @if($evenement->isUserInscrit(auth()->id()))
-                                        <button onclick="confirmDesinscription({{ $evenement->id }})"
-                                            class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
-                                            Se désinscrire
-                                        </button>
-                                    @else
-                                        <button onclick="confirmInscription({{ $evenement->id }})"
-                                            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
-                                            {{ $evenement->nb_place <= 0 ? 'disabled' : '' }}>
-                                            {{ $evenement->nb_place <= 0 ? 'Complet' : 'S\'inscrire' }}
-                                        </button>
-                                    @endif
-                                @endif
-                            @endif
-                        </div>
+                        <a href="{{ route('evenements.index') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+                            Retour
+                        </a>
                     </div>
                 </div>
             </div>
@@ -118,53 +99,10 @@
                 }
             });
         }
-
-        function confirmInscription(evenementId) {
-            Swal.fire({
-                title: 'Êtes-vous sûr ?',
-                text: "Voulez-vous vous inscrire à cet événement ?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Oui, inscrire !',
-                cancelButtonText: 'Annuler'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('inscription-form-' + evenementId).submit();
-                }
-            });
-        }
-
-        function confirmDesinscription(evenementId) {
-            Swal.fire({
-                title: 'Êtes-vous sûr ?',
-                text: "Voulez-vous vous désinscrire de cet événement ?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Oui, désinscrire !',
-                cancelButtonText: 'Annuler'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('desinscription-form-' + evenementId).submit();
-                }
-            });
-        }
     </script>
 
     <form id="delete-form-{{ $evenement->id }}" action="{{ route('evenements.destroy', $evenement) }}" method="POST"
         style="display: none;">
-        @csrf
-        @method('DELETE')
-    </form>
-    <form id="inscription-form-{{ $evenement->id }}" action="{{ route('evenement.inscription', $evenement) }}"
-        method="POST" style="display: none;">
-        @csrf
-    </form>
-    <form id="desinscription-form-{{ $evenement->id }}" action="{{ route('evenement.desinscription', $evenement) }}"
-        method="POST" style="display: none;">
         @csrf
         @method('DELETE')
     </form>

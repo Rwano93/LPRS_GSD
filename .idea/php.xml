@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="LaravelPint">
+    <laravel_pint_settings>
+      <LaravelPintConfiguration tool_path="$PROJECT_DIR$/LPRS/vendor/bin/pint" />
+    </laravel_pint_settings>
+  </component>
+
   <component name="MessDetectorOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
@@ -131,9 +137,8 @@
       <path value="$PROJECT_DIR$/LPRS/vendor/doctrine/inflector" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.2">
-    <option name="suggestChangeDefaultLanguageLevel" value="false" />
-  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
+
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>

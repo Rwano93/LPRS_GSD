@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Evenement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class EvenementController extends Controller
 {
@@ -27,45 +28,68 @@ class EvenementController extends Controller
     return view('evenement.index', compact('evenements'));
 }
 
-    public function show(Evenement $evenement)
-    {
-        return view('evenement.show', compact('evenement'));
+public function show(Evenement $evenement)
+{
+    if (request()->ajax()) {
+        return view('evenement._show', compact('evenement'))->render();
     }
 
-    public function store(Request $request)
+    return view('evenement.show', compact('evenement'));
+}
+
+public function getInscrits(Evenement $evenement)
+{
+    \Log::info('Récupération des inscrits pour l\'événement ' . $evenement->id);
+    $inscrits = $evenement->users()->select('users.id', 'users.name', 'users.email')->get();
+    \Log::info('Nombre d\'inscrits : ' . $inscrits->count());
+    return response()->json($inscrits);
+}
+    public function edit(Evenement $evenement)
     {
-        $validatedData = $request->validate([
-            'type' => 'required|string|max:255',
-            'titre' => 'required|string|max:255',
-            'description' => 'required|string',
-            'adresse' => 'required|string|max:255',
-            'elements_requis' => 'required|string',
-            'nb_place' => 'required|integer|min:1',
-            'date' => 'required|date',
-        ]);
+        return view('evenement.edit', compact('evenement'));
+    }
+    
+public function store(Request $request)
+{
+    $validatedData = $request->validate([
+        'titre' => 'required|max:255',
+        'description' => 'required',
+        'date' => 'required|date',
+        'adresse' => 'required',
+        'nb_place' => 'required|integer|min:1',
+        'type' => 'required',
+        'elements_requis' => 'nullable',
+    ]);
 
-        $evenement = Evenement::create($validatedData);
+    $evenement = new Evenement($validatedData);
+    $evenement->ref_user = Auth::id();
+    $evenement->save();
 
-        return response()->json($evenement, 201);
+    Session::flash('event_created', true);
+    return redirect()->route('evenements.index');
+}
+
+    public function create()
+    {
+        return view('evenement.create');
     }
 
     public function update(Request $request, Evenement $evenement)
-    {
-        $validatedData = $request->validate([
-            'type' => 'required|string|max:255',
-            'titre' => 'required|string|max:255',
-            'description' => 'required|string',
-            'adresse' => 'required|string|max:255',
-            'elements_requis' => 'required|string',
-            'nb_place' => 'required|integer|min:1',
-            'date' => 'required|date',
-        ]);
+{
+    $validatedData = $request->validate([
+        'titre' => 'required|max:255',
+        'description' => 'required',
+        'date' => 'required|date',
+        'adresse' => 'required',
+        'nb_place' => 'required|integer|min:1',
+        'type' => 'required',
+        'elements_requis' => 'nullable',
+    ]);
 
-        $evenement->update($validatedData);
+    $evenement->update($validatedData);
 
-        return response()->json($evenement, 200);
-    }
-
+    return redirect()->route('evenements.index')->with('success', 'Événement mis à jour avec succès.');
+}
     public function destroy(Evenement $evenement)
     {
         $evenement->delete();
@@ -74,29 +98,20 @@ class EvenementController extends Controller
     }
 
 
-    public function inscription(Request $request, Evenement $evenement)
-{
-    $user = Auth::user();
-    
-    if (!$evenement->isUserInscrit()) {
-        $evenement->participants()->attach($user->id);
-        return response()->json(['message' => 'Inscription réussie.']);
+  public function inscription(Evenement $evenement)
+    {
+        if ($evenement->nb_place > 0) {
+            $evenement->participants()->attach(Auth::id());
+            $evenement->decrement('nb_place');
+            return response()->json(['message' => 'Inscription réussie']);
+        }
+        return response()->json(['message' => 'Plus de places disponibles'], 400);
     }
-    
-    return response()->json(['message' => 'Vous êtes déjà inscrit à cet événement.'], 422);
-}
-    public function desinscription(Request $request, Evenement $evenement)
-{
-    $user = Auth::user();
-    
-    if ($evenement->isUserInscrit()) {
-        $evenement->participants()->detach($user->id);
-        return response()->json(['message' => 'Désinscription réussie.']);
+
+    public function desinscription(Evenement $evenement)
+    {
+        $evenement->participants()->detach(Auth::id());
+        $evenement->increment('nb_place');
+        return response()->json(['message' => 'Désinscription réussie']);
     }
-    
-    return response()->json(['message' => 'Vous n\'êtes pas inscrit à cet événement.'], 422);
-
-}
-
-    
 }
