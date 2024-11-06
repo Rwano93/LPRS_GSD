@@ -23,6 +23,7 @@ class Evenement extends Model
     protected $casts = [
         'date' => 'date',
     ];
+    
 
     public function participants()
     {
@@ -33,4 +34,5 @@ class Evenement extends Model
     {
         return $this->participants()->where('user_id', Auth::id())->exists();
     }
+    
 }

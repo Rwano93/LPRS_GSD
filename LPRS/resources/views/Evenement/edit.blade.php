@@ -1,62 +1,58 @@
 <x-app-layout>
-    <div class="min-h-screen bg-gray-100 p-8">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-3xl font-bold text-gray-800 mb-6">Modifier l'événement</h1>
+    <div class="py-12 bg-gray-100">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <h1 class="text-3xl font-semibold mb-6">Modifier l'événement</h1>
 
-            <form action="{{ route('evenements.update', $evenement) }}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                @csrf
-                @method('PUT')
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="type">
-                        Type
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="type" type="text" name="type" value="{{ $evenement->type }}" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="titre">
-                        Titre
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="titre" type="text" name="titre" value="{{ $evenement->titre }}" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
-                        Description
-                    </label>
-                    <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" name="description" rows="3" required>{{ $evenement->description }}</textarea>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="adresse">
-                        Adresse
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="adresse" type="text" name="adresse" value="{{ $evenement->adresse }}" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="elements_requis">
-                        Éléments requis
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="elements_requis" type="text" name="elements_requis" value="{{ $evenement->elements_requis }}" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="nb_place">
-                        Nombre de places
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nb_place" type="number" name="nb_place" value="{{ $evenement->nb_place }}" min="1" required>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="date">
-                        Date et heure
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="date" type="datetime-local" name="date" value="{{ $evenement->date->format('Y-m-d\TH:i') }}" required>
-                </div>
-                <div class="flex items-center justify-between">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                        Mettre à jour l'événement
-                    </button>
-                    <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="{{ route('evenements.index') }}">
-                        Annuler
-                    </a>
-                </div>
-            </form>
+                <form action="{{ route('evenements.update', $evenement) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="mb-4">
+                        <label for="titre" class="block text-sm font-medium text-gray-700">Titre</label>
+                        <input type="text" name="titre" id="titre" value="{{ old('titre', $evenement->titre) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea name="description" id="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ old('description', $evenement->description) }}</textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+                        <input type="datetime-local" name="date" id="date" value="{{ old('date', $evenement->date->format('Y-m-d\TH:i')) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="adresse" class="block text-sm font-medium text-gray-700">Adresse</label>
+                        <input type="text" name="adresse" id="adresse" value="{{ old('adresse', $evenement->adresse) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="nb_place" class="block text-sm font-medium text-gray-700">Nombre de places</label>
+                        <input type="number" name="nb_place" id="nb_place" value="{{ old('nb_place', $evenement->nb_place) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="type" class="block text-sm font-medium text-gray-700">Type</label>
+                        <input type="text" name="type" id="type" value="{{ old('type', $evenement->type) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="elements_requis" class="block text-sm font-medium text-gray-700">Éléments requis</label>
+                        <input type="text" name="elements_requis" id="elements_requis" value="{{ old('elements_requis', $evenement->elements_requis) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+
+                    <div class="flex items-center justify-end mt-4">
+                        <a href="{{ route('evenements.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center mr-2">
+                            Annuler
+                        </a>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Mettre à jour
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </x-app-layout>
