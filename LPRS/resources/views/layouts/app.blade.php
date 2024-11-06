@@ -33,13 +33,11 @@
             @endif
 
             <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
+            @yield('content')
 
         @stack('modals')
 
         @livewireScripts
+        </div>
     </body>
 </html>

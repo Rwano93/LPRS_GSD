@@ -5,6 +5,7 @@
       <LaravelPintConfiguration tool_path="$PROJECT_DIR$/LPRS/vendor/bin/pint" />
     </laravel_pint_settings>
   </component>
+
   <component name="MessDetectorOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
@@ -137,6 +138,7 @@
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
+
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
