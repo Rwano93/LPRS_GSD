@@ -2,7 +2,7 @@
 
 
 ```markdown
-# LPRS_Project
+# Nom du projet
 
 Projet LPRS. Création d'un site internet qui permet un gestion utilisateur ainsi qu'une communication entre utilisateur. De plus, il permet aussi a d'ancien élèves de créer des évenements ainsi que de poster des images. Des entreprises peuvent aussi y appliquer des offres de stage/alternance. 
 
@@ -27,13 +27,13 @@ Projet LPRS. Création d'un site internet qui permet un gestion utilisateur ains
 - **Composer** : Gestionnaire de dépendances pour PHP.
 - **NPM** : Gestionnaire de paquets pour JavaScript.
 
-   ```
 ## Installation
 
 1. Clone le dépôt :
 
    ```bash
-   git clone https://github.com/Rwano93/LPRS_GSD.git
+   git clone https://github.com/ton-utilisateur/nom-du-projet.git
+   ```
 
 2. Accède au répertoire du projet :
 
@@ -114,6 +114,12 @@ Instructions pour exécuter des tests :
 php artisan test
 ```
 
+## Contribuer
+
+Pour réaliser des pull request, il est possible de cloner le dossier grâce : 
+```
+git clone https://github.com/Rwano93/LPRS_Projet
+```
 
 ## Auteurs
 
